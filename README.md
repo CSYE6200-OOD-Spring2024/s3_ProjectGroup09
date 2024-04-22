@@ -1,3 +1,5 @@
+# *Assigment 5*
+
 ### *Description*
 
 ### *Architecture Overview*
@@ -408,23 +410,90 @@ Our application offers a versatile set of image processing operations, including
 9. **Blur Effect:** Add a blurring filter to the images.
 10. **Sharpening:** Enhance image sharpness with a sharpening filter.
 
-### How to Use UI
 
-1. **Load:** On clicking load, a dialogue box opens. Select an image to load by browsing through the directories in your computer and work on the image operations. The corresponding histogram also gets displayed in the panel below.
-2. **Save:** On Saving, a box opens to navigate to the directory where we should save the image. Enter the image name followed by a dot and file format (PNG, JPEG, JPG, BPM, PPM).
-3. **Vertical Flip** : Clicking on this button, will flip the image vertically.
-4. **Horizontal Flip** : Clicking on this button, will flip the image horizontally.
-5. **Red Comp**: This button will display the red component of the image.
-6. **Green Comp**: This button will display the green component of the image.
-7. **Blue Comp**: This button will display the blue component of the image.
-8. **Color Correction:** This button will display a prompt to enter the split which is optional and will display the color corrected image with its respective histogram in the panel below.
-9. **Levels Adjust:**  This button will prompt the user to enter b, m and w values along with split percentage which is optional. It will display the level adjusted image with its respective histogram in the panel below.
-10. **Blur:**  Clicking on this button, the user will see a blurred image in the panel with its respective histogram below.
-11. **Sharpen:** Clicking on this button, the user will see a sharpened image in the panel with its respective histogram below.
-12. **Sepia:** Clicking on this button, user can view the sepia operation applied. There is also an option to preview the image in split view but its optional.
-13. **Brigtness:**  This will ideally brighten or darken the image by accepting a positive or negative values. The image will be displayed along with the histogram.
-14. **Compression:**  Compression will prompt the user to entre the threshold, the higher the threshold, lower the size of the image being saved. The compressed image is also displayed.
-15. **Load and Combine:** This will load the individual images separately as a red, green and blue component and merge them together and display the same along with histogram.
-16. **GreyScale:** This will open a dialog box for the users to view six greyscale components - red, blue, green, luma, intensity and value. The images are displayed and can be saved in any formats.
-17. **Revert:** Revert the split preview and go back to the original image that was used earlier.
+### Image Citation from New York time
+Image that was used for Manipulation was from (https://static01.nyt.com/images/2021/02/27/arts/tomjerry1/tomjerry1-jumbo.jpg?quality=75&auto=webp).
+The image from this link was saved as manhattan-small.png.
+All the output images are placed in output/ folder
 
+
+### *Simple Image Manipulation Features:*
+
+
+| Operations                    | Command                                                                                                           | Output Image Name                                                                                                         |
+|:------------------------------|:------------------------------------------------------------------------------------------------------------------|:--------------------------------------------------------------------------------------------------------------------------|
+| load                          | load  manhattan-small manhattan-small                                                                             |                                                                                                                           |
+| Brighten                      | brighten 100 manhattan-small manhattan-small-brighten                                                             | output/manhattan-small-brighten.png                                                                                       | 
+| Darken                        | brighten -100 manhattan-small manhattan-small-darken                                                              | output/manhattan-small-darken.png                                                                                         | 
+| Red Component                 | red-component manhattan-small manhattan-small-red-comp                                                            | output/manhattan-small-red-comp.png                                                                                       | 
+| Blue Component                | blue-component manhattan-small manhattan-small-blue-comp                                                          | output/manhattan-small-blue-comp.png                                                                                      | 
+| Green Component               | green-component manhattan-small manhattan-small-green-comp                                                        | output/manhattan-small-green-comp.png                                                                                     | 
+| Sepia                         | sepia manhattan-small manhattan-small-sepia                                                                       | output/manhattan-small-sepia.png                                                                                          | 
+| Blur                          | blur manhattan-small manhattan-small-blur                                                                         | output/manhattan-small-blur.png                                                                                           | 
+| Sharpen                       | sharpen manhattan-small manhattan-small-sharpen                                                                   | output/manhattan-small-sharpen.png                                                                                        | 
+| RGB Split                     | rgb-split manhattan-small manhattan-small-red-grey manhattan-small-green-grey manhattan-small-blue-grey           | output/manhattan-small-red-grey.png,<br/> output/manhattan-small-green-grey.png,<br/>output/manhattan-small-blue-grey.png |
+| RGB Combine                   | rgb-combine manhattan-small-red comp manhattan-small-blue-comp manhattan-small-green-comp manhattan-small-combine | output/manhattan-small-combine.png                                                                                        |
+| Greyscale Red Component       | greyscale red-component manhattan-small manhattan-small-red-component                                             | output/manhattan-small-red-component.png                                                                                  |
+| Greyscale Green Component     | greyscale green-component manhattan-small manhattan-small-green-component                                         | output/manhattan-small-green-component.png                                                                                |
+| Greyscale Blue Component      | greyscale blue-component manhattan-small manhattan-small-blue-component                                           | output/manhattan-small-blue-component.png                                                                                 |
+| Greyscale Value Component     | greyscale value-component manhattan-small manhattan-small-value-component                                         | output/manhattan-small-value-component.png                                                                                |
+| Greyscale Luma Component      | greyscale luma-component manhattan-small manhattan-small-luma-component                                           | output/manhattan-small-luma-component.png                                                                                 |
+| Greyscale Intensity Component | greyscale intensity-component manhattan-small manhattan-small-intensity-component                                 | output/manhattan-small-intensity-component.png                                                                            |
+
+
+### *Design Changes*
+The `EnhancedImageProcessingModel` interface extends the `ImageProcessingModel` interface and defines additional methods for enhanced image processing. Here's a summary of the methods in this interface:
+
+1. **`fetchHistogram(String imageName, String destImageName)`**:
+    - **Input Parameters**: `imageName` (source image name), `destImageName` (destination image name)
+    - **Return Type**: `int[][]`
+    - **Description**: Retrieves the histogram of the image specified by `imageName` and saves it to the destination image specified by `destImageName`. The histogram is represented as a two-dimensional array of integers.
+
+2. **`compressImage(String fileName, String destName, double threshold)`**:
+    - **Input Parameters**: `fileName` (name of the image file to compress), `destName` (name of the destination image file), `threshold` (compression threshold)
+    - **Return Type**: `void`
+    - **Description**: Compresses the image specified by `fileName` and saves the compressed version to the destination image specified by `destName`. The compression is controlled by the `threshold` parameter.
+
+3. **`imageColorCorrection(String imageName, String destImageName, double splitPercentage)`**:
+    - **Input Parameters**: `imageName` (source image name), `destImageName` (destination image name), `splitPercentage` (percentage for color correction)
+    - **Return Type**: `void`
+    - **Description**: Performs color correction on the image specified by `imageName` and saves the corrected image to the destination specified by `destImageName`. The `splitPercentage` parameter determines the extent of color correction.
+
+4. **`levelAdjust(String imageName, String destImageName, int b, int m, int w, double splitPercentage)`**:
+    - **Input Parameters**: `imageName` (source image name), `destImageName` (destination image name), `b` (brightness adjustment), `m` (midpoint adjustment), `w` (width adjustment), `splitPercentage` (percentage for level adjustment)
+    - **Return Type**: `void`
+    - **Description**: Adjusts the levels of the image specified by `imageName` and saves the adjusted image to the destination specified by `destImageName`. The adjustments are controlled by the parameters `b` (brightness), `m` (midpoint), `w` (width), and `splitPercentage` (extent of adjustment).
+
+This interface serves as a contract for classes that implement enhanced image processing functionality, building upon the basic image processing capabilities provided by the `ImageProcessingModel` interface. 
+This class extends the Interface `ImageProcessingModel` and these functions are implemented in`ImageProcessingModelImpl`
+
+Separate Classes called `ImageCompression`, `ImageColorCorrection`, `LevelAdjustment` ,`Histogram` were created in `imageoperations` package
+which is the part of the controller. In the `ImageOperationMapper` enum, all four operations were matched to its controller object like below.
+- `HISTOGRAM("histogram", Histogram::new)`
+- `IMAGE_COMPRESSION("compress", ImageCompression::new)`
+- `COLOR_CORRECTION("color-correct", ImageColorCorrection::new)`
+- `LEVEL_ADJUST("levels-adjust", LevelAdjustment::new)`
+
+For split view, the classes `Blur`, `Sharpen`, `GreScale`in `imageperation` packages in Controller Classes were dealt with changes, 
+to accept split percentage as an optional input parameter in the functions implemented by the models.
+If user does not input any parameter, this project will consider it to be 0 and does the operation for the entire image,
+else if split percentage is provided, the manipulations are done only to the left of the image from the percentage provided by the user.
+
+### *Enhanced Image Manipulation Features:*
+
+| Operations                       | Command                                                                                | Output Image Name                                |
+|:---------------------------------|:---------------------------------------------------------------------------------------|:-------------------------------------------------|
+| Color Correction                 | color-correct  manhattan-small manhattan-small-color-corrected                         | output/manhattan-small-color-corrected.png       |
+| Color Correction + Split         | color-correct manhattan-small manhattan-small-color-corrected-split split 40           | output/manhattan-small-color-corrected-split.png | 
+| Histogram                        | histogram manhattan-small manhattan-small-histogram                                    | output/manhattan-small-histogram.png             |
+| Level Adjustment                 | levels-adjust 20 100 255 manhattan-small manhattan-small-level-adjust                  | output/manhattan-small-level-adjust.png          | 
+| Level Adjustment + Split         | levels-adjust 20 100 255 manhattan-small manhattan-small-level-adjust-split split 60   | output/manhattan-small-level-adjust-split.png    | 
+| Blur + Split                     | blur manhattan-small manhattan-small-blur-split split 50                               | output/manhattan-small-blur-split.png            | 
+| Sharpen + Split                  | sharpen manhattan-small manhattan-small-sharpen-split split 50                         | output/manhattan-small-sharpen-split.png         | 
+| Sepia + Split                    | sepia manhattan-small manhattan-small-sepia-split split 70                             | output/manhattan-small-sepia-split.png           | 
+| Greyscale Luma Component + Split | greyscale luma-component manhattan-small manhattan-small-luma-split-component split 35 | output/manhattan-small-luma-split-component.png  | 
+| Compression                      | compress manhattan-small manhattan-small-compress-20                                   | output/manhattan-small-compress-20.png           |
+
+All the commands in the script file - output/command.txt are executed via command line argument and also in a test case `testRunScript()` in `TestEnhancedImageManipulations` Class file. 
+The output images of the commands are placed in output/script-output/.
+All the commands were tested in the script, with many operations being manipulated above the previous results.
